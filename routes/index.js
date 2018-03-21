@@ -16,7 +16,7 @@ router.get('/login', function(req, res, next) {
         res.redirect('/' + req.query.url);
     } else {
         var host = req.headers.host;
-        var rUrl = encodeURIComponent('www.taduoke.com/getWechatUserInfo?url=' + req.query.url);
+        var rUrl = encodeURIComponent('http://www.taduoke.com/getWechatUserInfo?url=' + req.query.url);
         console.log('rul', rUrl)
         var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + aotuConfig.appid + '&redirect_uri=' + rUrl + '&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect';
         res.redirect(url);
