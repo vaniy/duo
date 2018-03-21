@@ -1,0 +1,17 @@
+{
+    "openId": "123456789",
+    "clockId": "cid_123456789",
+    "initialWeight": "77",
+    "clock": [{
+        "id": "01",
+        "day": "2018-01-30",
+        "weight": "78",
+        "reduceWeight": "2",
+        "breadfast": "",
+        "launch": "",
+        "dinner": "",
+        "drink": "",
+        "sleep": "",
+        "health": true
+    }]
+}
