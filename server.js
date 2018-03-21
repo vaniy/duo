@@ -11,7 +11,7 @@ var fs = require('fs');
 
 
 // io.emit('some event', {for: 'everyone' });
-http.createServer(app).listen(3500)
+http.createServer(app).listen(8009)
     // http.createServer(app).listen(80)
     // https.createServer(options, app).listen(443)
     // http.listen(80,function(){
