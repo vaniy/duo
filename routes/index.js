@@ -134,15 +134,17 @@ router.get("/myProfit", function(req, res, next) {
             var data = JSON.parse(body);
             var benfits = 0;
             var canTakeBenfits = 0;
-            data.data.map((child, index) => {
-                if (child.benfits > 0) {
-                    benfits += child.benfits;
-                }
-                if (child.benfits > 0 && child.status === 1) {
-                    canTakeBenfits += child.benfits;
-                }
-            })
-            res.render('myProfit', { title: '', data: data.data, benfits, canTakeBenfits });
+            if (data && data.data && data.data.length > 0) {
+                data.data.map((child, index) => {
+                    if (child.benfits > 0) {
+                        benfits += child.benfits;
+                    }
+                    if (child.benfits > 0 && child.status === 1) {
+                        canTakeBenfits += child.benfits;
+                    }
+                })
+            }
+            res.render('myProfit', { title: '', data: data.data || {}, benfits, canTakeBenfits });
         });
     } else {
         res.redirect('/login?url=account');
