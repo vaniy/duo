@@ -98,6 +98,14 @@ router.post('/createOrder', function(req, res, next) {
     }
 })
 
+router.post('/withDraw', function(req, res, next) {
+    if (req.session && req.session.user && req.session.user.openId && req.body.price && req.body.bank) {
+        dbHandler.withDraw(req, res, req.session.user.openId);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
 router.get('/user', function(req, res, next) {
     if (req.query.openId) {
         dbHandler.getUserInfo(req, res);

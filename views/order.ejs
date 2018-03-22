@@ -72,6 +72,38 @@
                                     function(res) {
                                         if (res.err_msg == "get_brand_wcpay_request:ok") {
                                             alert('支付成功')
+                                            var inputs = $('input');
+                                            var name = inputs[0].value;
+                                            var phone = inputs[1].value;
+                                            var address = inputs[2].value;
+                                            var weight = inputs[3].value;
+                                            var waist = inputs[4].value;
+                                            var hipline = inputs[5].value;
+                                            var arm = inputs[6].value;
+                                            $.ajax({
+                                                url: '/api/createOrder',
+                                                type: 'post',
+                                                data: {
+                                                    name: name,
+                                                    phone: phone,
+                                                    address: address,
+                                                    initialWeight: weight && weight.length > 0 ? parseFloat(weight) : 0,
+                                                    waist: waist && waist.length > 0 ? parseFloat(waist) : 0,
+                                                    hipline: hipline && waist.length > 0 ? parseFloat(hipline) : 0,
+                                                    arm: arm && arm.length > 0 ? parseFloat(arm) : 0,
+                                                },
+                                                dataType: 'json',
+                                                success: function(data) {
+                                                    if (data.status == 'success') {
+                                                        location.href = '/account';
+                                                    }
+                                                },
+                                                error: function(status) {
+                                                    if (status == 'error') {
+
+                                                    }
+                                                }
+                                            });
                                         } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
                                     }
                                 );
@@ -94,38 +126,7 @@
                         }
                     }
                 });
-                // var inputs = $('input');
-                // var name = inputs[0].value;
-                // var phone = inputs[1].value;
-                // var address = inputs[2].value;
-                // var weight = inputs[3].value;
-                // var waist = inputs[4].value;
-                // var hipline = inputs[5].value;
-                // var arm = inputs[6].value;
-                // $.ajax({
-                //     url: '/api/createOrder',
-                //     type: 'post',
-                //     data: {
-                //         name: name,
-                //         phone: phone,
-                //         address: address,
-                //         initialWeight: weight && weight.length > 0 ? parseFloat(weight) : 0,
-                //         waist: waist && waist.length > 0 ? parseFloat(waist) : 0,
-                //         hipline: hipline && waist.length > 0 ? parseFloat(hipline) : 0,
-                //         arm: arm && arm.length > 0 ? parseFloat(arm) : 0,
-                //     },
-                //     dataType: 'json',
-                //     success: function(status) {
-                //         if (status == 'success') {
-                //             location.href = '/account';
-                //         }
-                //     },
-                //     error: function(status) {
-                //         if (status == 'error') {
 
-                //         }
-                //     }
-                // });
             });
         });
     </script>

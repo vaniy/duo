@@ -115,8 +115,8 @@
                         initialWeight: initialWeight
                     },
                     dataType: 'json',
-                    success: function(status) {
-                        if (status == 'success') {
+                    success: function(data) {
+                        if (data.status == 'success') {
                             location.href = '/clockIndex';
                         }
                     },

@@ -42,6 +42,52 @@
             <img src="/images/logo.png" alt="" />
         </div>
     </div>
+    <script src="/javascripts/jquery-3.0.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".btn").click(function() {
+                var inputs = $('input');
+                var name = inputs[0].value;
+                var card = inputs[1].value;
+                var bank = inputs[2].value;
+                var price = inputs[3].value;
+                if (!(parseFloat(price) > 0)) {
+                    alert('请输入正确的金额')
+                } else if (bank == '') {
+                    alert('请输入银行')
+                } else {
+                    $.ajax({
+                        url: '/api/withDraw',
+                        type: 'post',
+                        data: {
+                            name: name,
+                            card: card,
+                            bank: bank,
+                            price: price,
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                alert('提现成功');
+                                setTimeout(function() {
+                                    location.href = '/account';
+                                }, 2000);
+                            } else {
+                                if (data.msg) {
+                                    alert(data.msg)
+                                }
+                            }
+                        },
+                        error: function(status) {
+                            if (status == 'error') {
+                                alert('请稍后再试')
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
