@@ -158,7 +158,7 @@ router.get("/myWithdraw", function(req, res, next) {
 
 router.get("/clockIndex", function(req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + eq.session.user.openId, function(err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -173,8 +173,9 @@ router.get("/clockIndex", function(req, res, next) {
                     clock.push({ link: 1, pass: 1 })
                 })
             }
-            for (var i = clock.length; i < 42; i++) {
-                if (!isToday && i === clock.length) {
+            var length = clock.length;
+            for (var i = length; i < 42; i++) {
+                if (!isToday && i === length) {
                     clock.push({ link: 0, pass: 0 });
                 } else {
                     clock.push({ link: 1, pass: 0 });
