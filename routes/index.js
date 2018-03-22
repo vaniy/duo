@@ -442,6 +442,7 @@ router.all('/pay', function(req, res, next) {
                     returnValue.nonceStr = result.xml.nonce_str[0]; // 随机字符串
                     returnValue.timestamp = timestamp.toString(); // 时间戳
                     returnValue.package = 'prepay_id=' + result.xml.prepay_id[0]; // 统一下单接口返回的 prepay_id 参数值
+                    console.log('returnValue.package', returnValue.package);
                     returnValue.paySign = paysignjs(wxConfig.AppID, returnValue.nonceStr, returnValue.package, 'MD5', timestamp); // 签名
                     res.end(JSON.stringify(returnValue));
                 } else {
