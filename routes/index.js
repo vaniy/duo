@@ -434,6 +434,7 @@ router.all('/pay', function(req, res, next) {
         if (!error && response.statusCode == 200) {
             var returnValue = {};
             parseString(body, function(err, result) {
+                console.log('result', result);
                 if (result.xml.return_code[0] == 'SUCCESS') {
                     returnValue.msg = '操作成功';
                     returnValue.status = '100';
