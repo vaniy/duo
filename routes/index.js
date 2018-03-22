@@ -228,11 +228,11 @@ router.get("/checkClock", function(req, res, next) {
 });
 
 router.get("/order", function(req, res, next) {
-    if (req.session && req.session.user && req.session.user.openId) {
-        res.render('order', { title: '' });
-    } else {
-        res.redirect('/login?url=order');
-    }
+    // if (req.session && req.session.user && req.session.user.openId) {
+    res.render('order', { title: '' });
+    // } else {
+    //     res.redirect('/login?url=order');
+    // }
 });
 
 router.get("/qrcode", function(req, res, next) {
@@ -437,7 +437,6 @@ router.all('/pay', function(req, res, next) {
         if (!error && response.statusCode == 200) {
             var returnValue = {};
             parseString(body, function(err, result) {
-                console.log('result', result);
                 if (result.xml.return_code[0] == 'SUCCESS') {
                     returnValue.msg = '操作成功';
                     returnValue.status = '100';
@@ -446,7 +445,6 @@ router.all('/pay', function(req, res, next) {
                     returnValue.nonceStr = result.xml.nonce_str[0]; // 随机字符串
                     returnValue.timestamp = timestamp.toString(); // 时间戳
                     returnValue.package = 'prepay_id=' + result.xml.prepay_id[0]; // 统一下单接口返回的 prepay_id 参数值
-                    console.log('returnValue.package', returnValue.package);
                     returnValue.paySign = paysignjs(wxConfig.AppID, returnValue.nonceStr, returnValue.package, 'MD5', timestamp); // 签名
                     res.end(JSON.stringify(returnValue));
                 } else {

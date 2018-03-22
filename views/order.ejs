@@ -29,7 +29,7 @@
                 <input type="text" class="two" placeholder="当前臂围(CM)"></input>
             </div>
         </div>
-        <div class="btn">
+        <div class="btn button">
             <span class="colorWhite fontSize10">立即购买</span>
         </div>
         <div class="custom fontSize10 colorWhite">
@@ -39,7 +39,7 @@
             </div>
             <div class="block">
                 <img class="icon" src="/images/buy.png" alt="" />
-                <span class="btn">立即购买</span>
+                <span class="button">立即购买</span>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
             // var id = a.innerText.length === 1 ? '0' + a.innerText : a.innerText;
             // var day = new Date().toLocaleDateString();
             // a.innerText = "第" + a.innerText + "天" + "（" + new Date().toLocaleDateString() + "）";
-            $(".btn").click(function() {
+            $(".button").click(function() {
                 $.ajax({
                     url: '/pay',
                     type: 'GET',
