@@ -166,7 +166,8 @@ router.get("/clockIndex", function(req, res, next) {
             var isToday = false;
             if (data.data && data.data.clock && data.data.clock.length > 0) {
                 var time = new Date().toLocaleDateString();
-                var day = time.split('/')[2] + '-' + time.split('/')[0] + '-' + time.split('/')[1];
+                var arr = time.split('/');
+                var day = arr[2] + '-' + arr[0] + '-' + arr[1];
                 isToday = data.data.clockTime == day;
                 data.data.clock.map((child, index) => {
                     clock.push({ link: 1, pass: 1 })
