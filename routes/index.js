@@ -47,11 +47,9 @@ router.get('/getWechatUserInfo', function(req, res) {
                     var access_token = result.data.access_token;
                     new getUserInfoByOpenid(access_token, openid)
                         .then(function(data) {
-                            console.log('data', data);
-                            console.log('openid', openid);
                             req.session.user = {};
                             req.session.user.openId = openid;
-                            dbHandler.checkUserExists(openid, function() {
+                            dbHandler.checkUserExists(openid, data, function(data) {
                                 dbHandler.createUser(data, req.query.preLevel || "");
                             })
                             return res.redirect('/' + req.query.url);
