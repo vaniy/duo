@@ -15,12 +15,12 @@
         <img class="topBanner" src="/images/topbanner.png" alt="">
         <div class="top">
             <span class="colorWhite">收益金额</span>
-            <span class="colorOrange">¥3000</span>
+            <span class="colorOrange">¥<%=benfits%></span>
         </div>
         <div class="title">
             <div class="left">
                 <img class="icon" src="/images/iconjifen.png" alt="" />
-                <span>可提现金额：¥3000</span>
+                <span>可提现金额：¥<%=canTakeBenfits%></span>
             </div>
             <a href="/myWithdraw" class="right">
                 <span class="colorWhite">我要提现</span>
@@ -36,13 +36,27 @@
         </div>
 
         <div class="persons marginTop">
-            <div class="person">
+            <%if(data.length > 0){ data.forEach(function(item){%>
+                <div class="person">
+                    <div class="avator">
+                        <img src="<%=item.avator%>" alt="">
+                        <span><%=item.customerName%></span>
+                    </div>
+                    <div class="info fontSize14">
+                        <span class="fontBolder">客户姓名：<span class="fontNormal"><%=item.customerName%></span></span>
+                        <span class="fontBolder">客户级别：<span class="fontNormal"><%=item.customerLevel%>级</span></span>
+                        <span class="fontBolder">佣金收益：<span class="fontNormal">¥<%=item.benfits%></span></span>
+                        <span class="fontBolder">购买日期：<span class="fontNormal"><%=item.time%></span></span>
+                    </div>
+                </div>
+                <%})}%>
+                    <!-- <div class="person">
                 <div class="avator">
                     <img src="/images/portrait.png" alt="">
-                    <span>吴敏</span>
+                    <span>海鸥</span>
                 </div>
                 <div class="info fontSize14">
-                    <span class="fontBolder">客户姓名：<span class="fontNormal">吴敏</span></span>
+                    <span class="fontBolder">客户姓名：<span class="fontNormal">海鸥</span></span>
                     <span class="fontBolder">客户级别：<span class="fontNormal">3级</span></span>
                     <span class="fontBolder">佣金收益：<span class="fontNormal">¥300</span></span>
                     <span class="fontBolder">购买日期：<span class="fontNormal">2018-01-10</span></span>
@@ -59,19 +73,7 @@
                     <span class="fontBolder">佣金收益：<span class="fontNormal">¥300</span></span>
                     <span class="fontBolder">购买日期：<span class="fontNormal">2018-01-10</span></span>
                 </div>
-            </div>
-            <div class="person">
-                <div class="avator">
-                    <img src="/images/portrait.png" alt="">
-                    <span>海鸥</span>
-                </div>
-                <div class="info fontSize14">
-                    <span class="fontBolder">客户姓名：<span class="fontNormal">海鸥</span></span>
-                    <span class="fontBolder">客户级别：<span class="fontNormal">3级</span></span>
-                    <span class="fontBolder">佣金收益：<span class="fontNormal">¥300</span></span>
-                    <span class="fontBolder">购买日期：<span class="fontNormal">2018-01-10</span></span>
-                </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- <div class="subTitle">

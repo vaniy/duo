@@ -73,6 +73,70 @@ var util = require('../util/util');
 //         res.send({ status: 'failed' })
 //     }
 // })
+router.post('/updateUser', function(req, res, next) {
+    if (req.session && req.session.user && req.session.user.openId) {
+        dbHandler.updateUser(req, res, req.session.user.openId);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.post('/updateClock', function(req, res, next) {
+    if (req.session && req.session.user && req.session.user.openId) {
+        dbHandler.updateClock(req, res, req.session.user.openId);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+
+router.post('/createOrder', function(req, res, next) {
+    if (req.session && req.session.user && req.session.user.openId) {
+        dbHandler.createOrder(req, res, req.session.user.openId);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.get('/user', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getUserInfo(req, res);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.get('/myOrder', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getOrder(req, res);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.get('/getPreLevel', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getPreLevel(req, res);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.get('/getBenfits', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getBenfits(req, res);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
+router.get('/getClockIndex', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getClockIndex(req, res, req.query.ranking ? req.query.ranking : false);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
 
 router.get('/token', function(req, res, next) {
     util.getToken(aotuConfig, function(result) {

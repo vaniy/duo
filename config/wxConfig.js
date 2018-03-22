@@ -1,7 +1,7 @@
 var wxConfig = {
     AppID: "wx4c10b88f9a6c8bc8", // 小程序ID  
     Secret: "24c86fbe8899ca57b59213147df4c120", // 小程序Secret
-    Mch_id: "1268979501", // 商户号
+    Mch_id: "1497933122", // 商户号
     Mch_key: "45tfgy768uhgfty654rdse4567jhkl76", // 商户key
     // 生成商户订单号
     getWxPayOrdrID: function() {

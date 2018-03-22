@@ -17,13 +17,13 @@
             <span class="title">她朵可</span>
             <div class="right">
                 <span class="day colorOrange fontSize20">42天<span class="colorWhite fontSize16">打卡计划</span></span>
-                <span class="fontSize10 colorGrey">初始体重：78公斤</span>
+                <span class="fontSize10 colorGrey">初始体重：<%=result.data && result.data.initialWeight ? result.data.initialWeight:0%>公斤</span>
             </div>
         </div>
         <div class="day">
             <div class="left fontSize12">
                 <img class="icon" src="/images/iconjifen.png" alt="" />
-                <span>第三天（2018-01-02）</span>
+                <span class="today"><%=day %></span>
             </div>
             <div class="right colorWhite">
                 <span>填写记录表</span>
@@ -73,6 +73,7 @@
                 </div>
             </div>
         </div>
+        <input value="<%=result.data && result.data.initialWeight ? result.data.initialWeight:0%>" type="text" hidden />
         <div class="btn colorWhite">
             <span>提交保存</span>
         </div>
@@ -81,6 +82,53 @@
             <img src="/images/logo.png" alt="" />
         </div>
     </div>
+    <script src="/javascripts/jquery-3.0.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var a = document.getElementsByClassName('today')[0]
+            var id = a.innerText.length === 1 ? '0' + a.innerText : a.innerText;
+            var day = new Date().toLocaleDateString();
+            a.innerText = "第" + a.innerText + "天" + "（" + new Date().toLocaleDateString() + "）";
+            $(".btn").click(function() {
+                var inputs = $('input');
+                var weight = inputs[0].value;
+                var breadfast = inputs[1].value;
+                var launch = inputs[2].value;
+                var dinner = inputs[3].value;
+                var drink = inputs[4].value;
+                var sleep = inputs[5].value;
+                var health = inputs[6].value;
+                var initialWeight = inputs[7].value;
+                $.ajax({
+                    url: '/api/updateClock',
+                    type: 'post',
+                    data: {
+                        id: id,
+                        day: day,
+                        weight: weight && weight.length > 0 ? parseFloat(weight) : 0,
+                        breadfast: breadfast,
+                        launch: launch,
+                        dinner: dinner,
+                        drink: drink,
+                        sleep: sleep,
+                        health: health,
+                        initialWeight: initialWeight
+                    },
+                    dataType: 'json',
+                    success: function(status) {
+                        if (status == 'success') {
+                            location.href = '/clockIndex';
+                        }
+                    },
+                    error: function(status) {
+                        if (status == 'error') {
+
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

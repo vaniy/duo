@@ -17,27 +17,29 @@
             <span class="title">她朵可</span>
             <div class="right">
                 <span class="day colorOrange fontSize20">42天<span class="colorWhite fontSize16">打卡计划</span></span>
-                <span class="fontSize10 colorGrey">初始体重：78公斤</span>
+                <span class="fontSize10 colorGrey">初始体重：<%=result.data && result.data.initialWeight ? result.data.initialWeight:0%>公斤</span>
             </div>
         </div>
         <div class="count fontSize14">
             <img class="icon" src="/images/iconjifen.png" alt="" />
-            <span>共有98人参加计划</span>
+            <span>共有<%=result.persons && result.persons.length > 0 ? result.persons.length:0%>人参加计划</span>
         </div>
         <div class="ranking">
             <div class="title">
-                <span class="left fontSize12">2018/01/30排名</span>
+                <span class="left fontSize12 today"></span>
                 <span class="right fontSize12">每天瘦身/公斤</span>
             </div>
-            <div class="person fontSize12">
-                <div class="left">
-                    <span class="number">1</span>
-                    <img src="/images/portrait.png" alt="" class="per">
-                    <span class="name">海鸥</span>
+            <%if(result.persons && result.persons.length > 0){ result.persons.forEach(function(item, index){%>
+                <div class="person fontSize12">
+                    <div class="left">
+                        <span class="number"><%=index+1%></span>
+                        <img src="<%=item.avator%>" alt="" class="per">
+                        <span class="name"><%=item.name%></span>
+                    </div>
+                    <span class="right"><%=item.reduceWeight%></span>
                 </div>
-                <span class="right">1.1</span>
-            </div>
-            <div class="person fontSize12">
+                <%})}%>
+                    <!-- <div class="person fontSize12">
                 <div class="left">
                     <span class="number">2</span>
                     <img src="/images/portrait.png" alt="" class="per">
@@ -52,12 +54,16 @@
                     <span class="name">海鸥</span>
                 </div>
                 <span class="right">1.5</span>
-            </div>
+            </div> -->
         </div>
         <div class="bottom">
             <img src="/images/logo.png" alt="" />
         </div>
     </div>
+    <script>
+        var a = document.getElementsByClassName('today')[0]
+        a.innerText = new Date().toLocaleDateString() + '排名';
+    </script>
 </body>
 
 </html>

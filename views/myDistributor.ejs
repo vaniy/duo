@@ -22,53 +22,84 @@
             </a>
         </div>
         <div class="tab fontSize10">
-            <span class="active">一级（3）</span>
-            <span>二级（5）</span>
-            <span>三级（15）</span>
+            <span id="first" class="btn active">一级（<%=data.firstLevel.length%>）</span>
+            <span id="second" class="btn">二级（<%=data.secondLevel.length%>）</span>
+            <span id="third" class="btn">三级（<%=data.thirdLevel.length%>）</span>
         </div>
-        <div class="persons">
-            <div class="person">
-                <div class="avator">
-                    <img src="/images/portrait.png" alt="">
-                    <span>海鸥</span>
-                </div>
-                <div class="info fontSize14">
-                    <span class="fontBolder">姓名：<span>吴敏</span></span>
-                    <span class="fontBolder">城市：<span class="fontNormal">上海</span></span>
-                    <span class="fontBolder">上级：<span class="fontNormal">张三</span></span>
-                    <span class="fontBolder">日期：<span class="fontNormal">2018-01-10</span></span>
-                </div>
+        <% if(data.firstLevel.length>0){%>
+            <div class="persons first">
+                <% data.firstLevel.forEach(function(item){%>
+                    <div class="person">
+                        <div class="avator">
+                            <img alt="" src=<%=item.avator%> />
+                            <span><%=item.name%></span>
+                        </div>
+                        <div class="info fontSize14">
+                            <span class="fontBolder">姓名：<span><%=item.name%></span></span>
+                            <span class="fontBolder">城市：<span class="fontNormal"><%=item.city%></span></span>
+                            <span class="fontBolder">上级：<span class="fontNormal"><%=item.preName%></span></span>
+                            <span class="fontBolder">日期：<span class="fontNormal"><%=item.time%></span></span>
+                        </div>
+                    </div>
+                    <%})%>
             </div>
-            <div class="person">
-                <div class="avator">
-                    <img src="/images/portrait.png" alt="">
-                    <span>海鸥</span>
-                </div>
-                <div class="info fontSize14">
-                    <span class="fontBolder">姓名：<span>吴敏</span></span>
-                    <span class="fontBolder">城市：<span class="fontNormal">上海</span></span>
-                    <span class="fontBolder">上级：<span class="fontNormal">张三</span></span>
-                    <span class="fontBolder">日期：<span class="fontNormal">2018-01-10</span></span>
-                </div>
-            </div>
-            <div class="person">
-                <div class="avator">
-                    <img src="/images/portrait.png" alt="">
-                    <span>海鸥</span>
-                </div>
-                <div class="info fontSize14">
-                    <span class="fontBolder">姓名：<span>吴敏</span></span>
-                    <span class="fontBolder">城市：<span class="fontNormal">上海</span></span>
-                    <span class="fontBolder">上级：<span class="fontNormal">张三</span></span>
-                    <span class="fontBolder">日期：<span class="fontNormal">2018-01-10</span></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom">
-            <img src="/images/logo.png" alt="" />
-        </div>
+            <%}%>
+                <% if(data.secondLevel.length>0){%>
+                    <div class="persons second" style="display:none">
+                        <% data.secondLevel.forEach(function(item){%>
+                            <div class="person">
+                                <div class="avator">
+                                    <img alt="" src=<%=item.avator%> />
+                                    <span><%=item.name%></span>
+                                </div>
+                                <div class="info fontSize14">
+                                    <span class="fontBolder">姓名：<span><%=item.name%></span></span>
+                                    <span class="fontBolder">城市：<span class="fontNormal"><%=item.city%></span></span>
+                                    <span class="fontBolder">上级：<span class="fontNormal"><%=item.preName%></span></span>
+                                    <span class="fontBolder">日期：<span class="fontNormal"><%=item.time%></span></span>
+                                </div>
+                            </div>
+                            <%})%>
+                    </div>
+                    <%}%>
+                        <% if(data.thirdLevel.length>0){%>
+                            <div class="persons third" style="display:none">
+                                <% data.thirdLevel.forEach(function(item){%>
+                                    <div class="person">
+                                        <div class="avator">
+                                            <img alt="" src=<%=item.avator%> />
+                                            <span><%=item.name%></span>
+                                        </div>
+                                        <div class="info fontSize14">
+                                            <span class="fontBolder">姓名：<span><%=item.name%></span></span>
+                                            <span class="fontBolder">城市：<span class="fontNormal"><%=item.city%></span></span>
+                                            <span class="fontBolder">上级：<span class="fontNormal"><%=item.preName%></span></span>
+                                            <span class="fontBolder">日期：<span class="fontNormal"><%=item.time%></span></span>
+                                        </div>
+                                    </div>
+                                    <%})%>
+                            </div>
+                            <%}%>
+                                <div class="bottom">
+                                    <img src="/images/logo.png" alt="" />
+                                </div>
     </div>
+    <script src="/javascripts/jquery-3.0.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.btn').on('click', function(e) {
+                var element = e.currentTarget;
+                $('.btn')[0].className = "btn";
+                $('.btn')[1].className = "btn";
+                $('.btn')[2].className = "btn";
+                element.className = "btn active";
+                $('.first').hide();
+                $('.second').hide();
+                $('.third').hide();
+                $('.' + element.id).show();
+            })
+        });
+    </script>
 </body>
 
 </html>

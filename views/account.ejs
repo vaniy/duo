@@ -13,8 +13,8 @@
     <div class="wx_container">
         <div class="section">
             <div class="left">
-                <img class="userImage" src="/images/portrait.png" alt="" />
-                <span class="userName paddingLeft">ZXXAAS</span>
+                <img class="userImage" alt="" src=<%=data.avator %> />
+                <span class="userName paddingLeft"><%=data.name%></span>
             </div>
             <div class="right">
                 <a href="/person" class="fontSize10 colorGreen">编辑个人资料</a>
@@ -54,10 +54,10 @@
                 <img class="icon" src="/images/iconsmile.png" alt="" />
                 <span class="userName paddingLeft">推广分享</span>
             </div>
-            <div class="right">
+            <a href="/qrcode" class="right">
                 <img class="icon" src="/images/qr.png" alt="" />
                 <img class="rightArrow paddingLeft" src="/images/arrowright.png" alt="" />
-            </div>
+            </a>
         </div>
         <div class="section">
             <div class="left">
@@ -65,7 +65,7 @@
                 <span class="userName paddingLeft">我的收益</span>
             </div>
             <a href="/myProfit" class="right">
-                <span class="fontSize18 colorOrange">¥ 1000</span>
+                <span class="fontSize18 colorOrange"><%='¥ '+data.myBenfits%></span>
                 <img class="rightArrow paddingLeft" src="/images/arrowright.png" alt="" />
             </a>
         </div>

@@ -17,7 +17,7 @@
             <span class="title">她朵可</span>
             <div class="right">
                 <span class="day colorOrange fontSize20">42天<span class="colorWhite fontSize16">打卡计划</span></span>
-                <span class="fontSize10 colorGrey">初始体重：78公斤</span>
+                <span class="fontSize10 colorGrey">初始体重：<%=result.data && result.data.initialWeight ? result.data.initialWeight:0%>公斤</span>
             </div>
         </div>
         <div class="check">
@@ -38,17 +38,38 @@
                         <th>睡觉时间</th>
                         <th>排便是否正常</th>
                     </tr>
-                    <tr>
-                        <td>01</td>
-                        <td>01-10</td>
-                        <td>78</td>
-                        <td>粥</td>
-                        <td>米饭</td>
-                        <td>面条</td>
-                        <td>1.5</td>
-                        <td>11点</td>
-                        <td>是</td>
-                    </tr>
+                    <%if(result.data && result.data.clock && result.data.clock.length>0){ result.data.clock.forEach(function(item){%>
+                        <tr>
+                            <td>
+                                <%=item.id%>
+                            </td>
+                            <td>
+                                <%=item.day ? item.day.replace(new Date().getFullYear()+'-', '') : ''%>
+                            </td>
+                            <td>
+                                <%=item.weight%>
+                            </td>
+                            <td>
+                                <%=item.breadfast%>
+                            </td>
+                            <td>
+                                <%=item.launch%>
+                            </td>
+                            <td>
+                                <%=item.dinner%>
+                            </td>
+                            <td>
+                                <%=item.drink%>
+                            </td>
+                            <td>
+                                <%=item.sleep%>
+                            </td>
+                            <td>
+                                <%=item.health ? '是':'否'%>
+                            </td>
+                        </tr>
+                        <%})}%>
+                            <!-- 
                     <tr>
                         <td>02</td>
                         <td>01-10</td>
@@ -70,7 +91,7 @@
                         <td>1.5</td>
                         <td>11点</td>
                         <td>是</td>
-                    </tr>
+                    </tr> -->
                 </table>
                 <!-- <div class="line">
                     <span class="three">第几天</span>
