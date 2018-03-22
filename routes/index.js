@@ -387,8 +387,11 @@ router.get('/wxpay', function() {
  * 根据openid 发起微信支付  
  */
 router.all('/pay', function(req, res, next) {
-    var param = req.query || req.params;
-    var openid = param.openId;
+    // var param = req.query || req.params;
+    if (!req.session.user && !req.session.user.openId) {
+        res.send({ status: 'failed' })
+    }
+    var openid = req.session.user.openId;
 
     var spbill_create_ip = req.ip.replace(/::ffff:/, ''); // 获取客户端ip
     // var spbill_create_ip = "10.16.50.34";
