@@ -65,7 +65,7 @@
                 <span class="userName paddingLeft">我的收益</span>
             </div>
             <a href="/myProfit" class="right">
-                <span class="fontSize18 colorOrange"><%='¥ '+data.myBenfits ? data.myBenfits : '0'%></span>
+                <span class="fontSize18 colorOrange"><%='¥ '+data.myBenfits && data.myBenfits > 0? data.myBenfits : '0'%></span>
                 <img class="rightArrow paddingLeft" src="/images/arrowright.png" alt="" />
             </a>
         </div>

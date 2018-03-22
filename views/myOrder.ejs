@@ -21,7 +21,7 @@
                 <img class="rightArrow" src="/images/arrowdown.png" alt="" />
             </a>
         </div>
-        <% data.forEach(function(item){%>
+        <% if(data.length >0){data.forEach(function(item){%>
             <div class="item">
                 <div class="top">
                     <span class="title fontSize12">她朵可产品</span>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <%})%>
+            <%})}%>
                 <div class="bottom">
                     <img src="/images/logo.png" alt="" />
                 </div>
