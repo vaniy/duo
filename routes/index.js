@@ -167,13 +167,11 @@ router.get("/clockIndex", function(req, res, next) {
             if (data.data && data.data.clock && data.data.clock.length > 0) {
                 var time = new Date().toLocaleDateString();
                 var arr = time.split('/');
-                var day = arr[2] + '-' + arr[0] + '-' + arr[1];
+                var day = arr.length === 3 ? arr[2] + '-' + arr[0] + '-' + arr[1] : arr[0];
                 isToday = data.data.clockTime == day;
                 data.data.clock.map((child, index) => {
                     clock.push({ link: 1, pass: 1 })
                 })
-            } else {
-                isToday = true;
             }
             for (var i = clock.length; i < 42; i++) {
                 if (!isToday && i === clock.length) {
