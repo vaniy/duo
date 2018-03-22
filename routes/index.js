@@ -49,11 +49,14 @@ router.get('/getWechatUserInfo', function(req, res) {
                         .then(function(info) {
                             req.session.user = {};
                             req.session.user.openId = openid;
-                            dbHandler.checkUserExists(openid, info, req, function(info, req) {
-                                console.log('info', info)
-                                dbHandler.createUser(info, req.query.preLevel || "");
+                            dbHandler.checkUserExists(openid, info, req, res, function(info, req, res) {
+                                if (!info) {
+                                    res.redirect('/' + req.query.url);
+                                }
+                                dbHandler.createUser(info, req.query.preLevel || "", res);
                             })
-                            return res.redirect('/' + req.query.url);
+
+                            // return res.redirect('/' + req.query.url);
                         })
                         .catch(function(err) {
                             return res.status(500).send('get user info by openid error:' + err);
