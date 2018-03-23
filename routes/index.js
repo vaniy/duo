@@ -399,7 +399,7 @@ router.all('/pay', function(req, res, next) {
     var notify_url = 'http://www.taduoke.com/weichat/wxpay' // 支付成功的回调地址  可访问 不带参数
     var nonce_str = getNonceStr(); // 随机字符串
     var out_trade_no = wxConfig.getWxPayOrdrID(); // 商户订单号
-    var total_fee = '420000'; // 订单价格 单位是 分
+    var total_fee = '42'; // 订单价格 单位是 分
     var timestamp = Math.round(new Date().getTime() / 1000); // 当前时间
 
     var bodyData = '<xml>';
