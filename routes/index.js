@@ -238,7 +238,7 @@ router.get("/order", function(req, res, next) {
 
 router.get("/qrcode", function(req, res, next) {
     if ((req.session && req.session.user && req.session.user.openId) || (req.query.qrcode && req.query.qrcode.length > 0)) {
-        res.render('qrcode', { title: '', url: 'http://www.taduoke.com/login?url=account&openId=' + req.session.user.openId, qrcode: req.query.qrcode ? req.query.qrcode : '' });
+        res.render('qrcode', { title: '', url: 'http://www.taduoke.com/login?url=order&openId=' + req.session.user.openId, qrcode: req.query.qrcode ? req.query.qrcode : '' });
     } else {
         res.redirect('/login?url=account');
     }
