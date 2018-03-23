@@ -17,7 +17,7 @@ var util = require('../util/util');
 // const language = require('../lib/resource')
 
 router.get('/login', function(req, res, next) {
-    if (req.session && req.session.user && req.session.user.openId) {
+    if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
         res.redirect('/' + req.query.url);
     } else {
         var host = req.headers.host;
@@ -78,7 +78,6 @@ router.get('/getWechatUserInfo', function(req, res) {
 
 router.get("/account", function(req, res, next) {
     if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
-        console.log('req.session.user.name2', req.session.user.name)
         request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function(err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
