@@ -32,6 +32,10 @@ router.route('/signIn').get((req, res) => {
     // dbHandler.findAllQuestion(req, res);
 })
 
+router.get('/api/getAllOrder', (req, res) => {
+    dbHandler.getOrder(req, res, true);
+})
+
 // router.get('/questions', (req, res) => {
 //     dbHandler.findAllQuestion(req, res);
 // })
