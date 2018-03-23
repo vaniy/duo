@@ -77,7 +77,7 @@ router.get('/getWechatUserInfo', function(req, res) {
 
 
 router.get("/account", function(req, res, next) {
-    if (req.session && req.session.user && req.session.user.openId) {
+    if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
         request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function(err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
@@ -158,7 +158,7 @@ router.get("/myWithdraw", function(req, res, next) {
 });
 
 router.get("/clockIndex", function(req, res, next) {
-    if (req.session && req.session.user && req.session.user.openId) {
+    if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
         request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function(err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
@@ -230,7 +230,6 @@ router.get("/checkClock", function(req, res, next) {
 
 router.get("/order", function(req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        req.session.user = null;
         res.render('order', { title: '' });
     } else {
         res.redirect('/login?url=order');
