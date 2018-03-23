@@ -50,11 +50,11 @@ router.get('/getWechatUserInfo', function(req, res) {
                             req.session.user = {};
                             req.session.user.openId = openid;
                             console.log('info', info)
-                            dbHandler.checkUserExists(openid, info, req, res, function(info, req, res) {
+                            dbHandler.checkUserExists(openid, JSON.parse(info), req, res, function(info, req, res) {
                                 if (!info) {
                                     res.redirect('/' + req.query.url);
                                 } else {
-                                    dbHandler.createUser(JSON.parse(info), req.query.preLevel || "", req, res);
+                                    dbHandler.createUser(info, req.query.preLevel || "", req, res);
                                 }
                             })
 
