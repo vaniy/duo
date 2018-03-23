@@ -229,11 +229,12 @@ router.get("/checkClock", function(req, res, next) {
 });
 
 router.get("/order", function(req, res, next) {
-    // if (req.session && req.session.user && req.session.user.openId) {
-    res.render('order', { title: '' });
-    // } else {
-    //     res.redirect('/login?url=order');
-    // }
+    if (req.session && req.session.user && req.session.user.openId) {
+        req.session.user = null;
+        res.render('order', { title: '' });
+    } else {
+        res.redirect('/login?url=order');
+    }
 });
 
 router.get("/qrcode", function(req, res, next) {
