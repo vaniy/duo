@@ -11,7 +11,14 @@
 
 <body>
     <input value="<%=url%>" type="text" hidden/>
-    <div id="qrcode" style="margin:0 auto"></div>
+    <%if(qrcode === ''){%>
+        <div id="qrcode" style="margin:0 auto"></div>
+        <%}else{%>
+            <div class="qrcode">
+                <img src="/images/<%=qrcode%>" alt="">
+                <span>长按扫一扫关注微信公众号</span>
+            </div>
+            <%}%>
 </body>
 <script src="/javascripts/jquery-3.0.0.min.js"></script>
 <script src="/javascripts/qrcode.min.js"></script>
