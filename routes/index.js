@@ -49,6 +49,7 @@ router.get('/getWechatUserInfo', function(req, res) {
                         .then(function(info) {
                             req.session.user = {};
                             req.session.user.openId = openid;
+                            console.log('info', info)
                             dbHandler.checkUserExists(openid, info, req, res, function(info, req, res) {
                                 if (!info) {
                                     res.redirect('/' + req.query.url);
@@ -526,4 +527,7 @@ function getNonceStr() {
     return Math.random().toString(36).substr(2, 15)
 };
 
+router.post('/login/wechat', function(req, res) {
+    console.log('aa')
+})
 module.exports = router;
