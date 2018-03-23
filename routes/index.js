@@ -77,7 +77,6 @@ router.get('/getWechatUserInfo', function(req, res) {
 
 
 router.get("/account", function(req, res, next) {
-    console.log('req.session.user.name1', req.session.user.name)
     if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
         console.log('req.session.user.name2', req.session.user.name)
         request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function(err, httpResponse, body) {
