@@ -21,9 +21,9 @@
             <button class="submit">提交</button> -->
     <!-- </div> -->
     <!-- </div> -->
-    <div id="slick-login" value=<%=chapter ? chapter : ''%> >
-        <label for="username">username</label><input type="text" name="username" class="phoneNumber" placeholder="手机号">
-        <label for="password">password</label><input type="password" name="password" class="password" placeholder="password">
+    <div id="slick-login">
+        <label for="username">username</label><input type="text" name="username" class="phoneNumber" placeholder="用户名">
+        <label for="password">password</label><input type="password" name="password" class="password" placeholder="密码">
         <input type="submit" class="submit" value="Log In">
     </div>
     <!-- <form>
@@ -35,42 +35,38 @@
 
     <script src="/javascripts/jquery-3.0.0.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.reset').click(function () {
+        $(document).ready(function() {
+            $('.reset').click(function() {
                 $('.phoneNumber').val('');
                 $('.password').val('');
             })
-            $('.submit').click(function () {
+            $('.submit').click(function() {
                 var phoneNumber = $('.phoneNumber').val();
                 var password = $('.password').val();
                 var urlParams = document.title === 'view' ? 'view' : 'management';
-                if (phoneNumber && phoneNumber.trim().length === 11 && parseInt(phoneNumber)) {
-                    phoneNumber = parseInt(phoneNumber);
+                if (phoneNumber && phoneNumber.length > 0) {
                     $.ajax({
                         url: '/' + urlParams + '/signIn',
                         type: 'POST',
-                        data: { phoneNumber: phoneNumber, password: password.trim(), status: $('#slick-login').attr('value') },
+                        data: {
+                            phoneNumber: phoneNumber,
+                            password: password.trim(),
+                            status: $('#slick-login').attr('value')
+                        },
                         dataType: 'JSON',
                         cache: false,
-                        success: function (data) {
+                        success: function(data) {
                             if (data && data.status && data.status === 'failed') {
                                 alert('用户名密码错误')
-                            }
-                            else {
-                                if (urlParams === 'view') {
-                                    location.href = '/view/course';
-                                }
-                                else {
-                                    location.href = '/management';
-                                }
+                            } else {
+                                location.href = '/management';
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             alert('internal server error')
                         }
                     })
-                }
-                else {
+                } else {
                     alert('请输入正确的账号')
                 }
             })
