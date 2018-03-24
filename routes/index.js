@@ -22,7 +22,7 @@ var util = require('../util/util');
 
 // const language = require('../lib/resource')
 
-router.get('/login', function(req, res, next) {
+router.get('/login', function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
         res.redirect('/' + req.query.url);
     } else {
@@ -38,25 +38,25 @@ router.get('/login', function(req, res, next) {
     }
 });
 
-router.get('/getWechatUserInfo', function(req, res) {
+router.get('/getWechatUserInfo', function (req, res) {
     if (req.query.code) {
         var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + aotuConfig.appid + '&secret=' + aotuConfig.secret + '&code=' + req.query.code + '&grant_type=authorization_code';
-        request.get(url, function(err, httpResponse, body) {
+        request.get(url, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
             var access_token = data.access_token;
             var openid = data.openid;
             if (openid) {
-                util.getToken(aotuConfig, function(result) {
+                util.getToken(aotuConfig, function (result) {
                     if (result.err) return res.status(500).send(result.msg);
                     var access_token = result.data.access_token;
                     new getUserInfoByOpenid(access_token, openid)
-                        .then(function(info) {
+                        .then(function (info) {
                             req.session.user = {};
                             req.session.user.openId = openid;
                             console.log('info', info)
-                            dbHandler.checkUserExists(openid, JSON.parse(info), req, res, function(info, req, res) {
+                            dbHandler.checkUserExists(openid, JSON.parse(info), req, res, function (info, req, res) {
                                 if (!info) {
                                     res.redirect('/' + req.query.url);
                                 } else {
@@ -66,7 +66,7 @@ router.get('/getWechatUserInfo', function(req, res) {
 
                             // return res.redirect('/' + req.query.url);
                         })
-                        .catch(function(err) {
+                        .catch(function (err) {
                             return res.status(500).send('get user info by openid error:' + err);
                         });
                 })
@@ -82,9 +82,9 @@ router.get('/getWechatUserInfo', function(req, res) {
 });
 
 
-router.get("/account", function(req, res, next) {
+router.get("/account", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
-        request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -95,9 +95,9 @@ router.get("/account", function(req, res, next) {
     }
 });
 
-router.get("/person", function(req, res, next) {
+router.get("/person", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/user?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -108,9 +108,9 @@ router.get("/person", function(req, res, next) {
     }
 });
 
-router.get("/myOrder", function(req, res, next) {
+router.get("/myOrder", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/myOrder?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/myOrder?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -121,9 +121,9 @@ router.get("/myOrder", function(req, res, next) {
     }
 });
 
-router.get("/myDistributor", function(req, res, next) {
+router.get("/myDistributor", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getPreLevel?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getPreLevel?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -134,9 +134,9 @@ router.get("/myDistributor", function(req, res, next) {
     }
 });
 
-router.get("/myProfit", function(req, res, next) {
+router.get("/myProfit", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getBenfits?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getBenfits?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -159,13 +159,13 @@ router.get("/myProfit", function(req, res, next) {
     }
 });
 
-router.get("/myWithdraw", function(req, res, next) {
+router.get("/myWithdraw", function (req, res, next) {
     res.render('myWithdraw', { title: '' });
 });
 
-router.get("/clockIndex", function(req, res, next) {
+router.get("/clockIndex", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId && req.session.user.name) {
-        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -195,9 +195,9 @@ router.get("/clockIndex", function(req, res, next) {
     }
 });
 
-router.get("/addClock", function(req, res, next) {
+router.get("/addClock", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getClockIndex?ranking=1&openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getClockIndex?ranking=1&openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -208,9 +208,9 @@ router.get("/addClock", function(req, res, next) {
     }
 });
 
-router.get("/ranking", function(req, res, next) {
+router.get("/ranking", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getClockIndex?ranking=1&openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getClockIndex?ranking=1&openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -221,9 +221,9 @@ router.get("/ranking", function(req, res, next) {
     }
 });
 
-router.get("/checkClock", function(req, res, next) {
+router.get("/checkClock", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
-        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function(err, httpResponse, body) {
+        request.get('http://www.taduoke.com/api/getClockIndex?openId=' + req.session.user.openId, function (err, httpResponse, body) {
             //res.json(body);
             if (err) return res.send({ status: 'failed' });
             var data = JSON.parse(body);
@@ -234,20 +234,53 @@ router.get("/checkClock", function(req, res, next) {
     }
 });
 
-router.get("/order", function(req, res, next) {
+router.get("/order", function (req, res, next) {
     if (req.session && req.session.user && req.session.user.openId) {
         res.render('order', { title: '' });
     } else {
-        res.redirect('/login?url=order');
+        if (req.query.preLevel) {
+            res.redirect('/login?url=order&openId=' + req.query.preLevel);
+        }
+        else {
+            res.redirect('/login?url=order');
+        }
     }
 });
 
-router.get("/qrcode", function(req, res, next) {
-    if ((req.session && req.session.user && req.session.user.openId) || (req.query.qrcode && req.query.qrcode.length > 0)) {
-        res.render('qrcode', { title: '', url: 'http://www.taduoke.com/login?url=order&openId=' + req.session.user.openId, qrcode: req.query.qrcode ? req.query.qrcode : '' });
-    } else {
+router.get("/qrcode", function (req, res, next) {
+    if (req.session && req.session.user && req.session.user.openId) {
+        util.getToken(aotuConfig, function (result) {
+            if (result.err) return res.status(500).send(result.msg);
+            var access_token = result.data.access_token;
+            request.post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' + access_token, {
+                form: {
+                    expire_seconds: 604800,
+                    "action_name": "QR_STR_SCENE",
+                    "action_info": {
+                        "scene": {
+                            "scene_str": "req.session.user.openId"
+                        }
+                    }
+                },
+                json: true
+            },
+                function (err, httpResponse, body) {
+                    //res.json(body);
+                    if (err) return res.send({ status: 'failed' });
+                    var data = JSON.parse(body);
+                    res.render('qrcode', { title: '', url: data.url, qrcode: '' });
+                });
+
+        });
+    }
+    else {
         res.redirect('/login?url=account');
     }
+    // if ((req.session && req.session.user && req.session.user.openId) || (req.query.qrcode && req.query.qrcode.length > 0)) {
+    //     res.render('qrcode', { title: '', url: 'http://www.taduoke.com/login?url=order&openId=' + req.session.user.openId, qrcode: req.query.qrcode ? req.query.qrcode : '' });
+    // } else {
+    //     res.redirect('/login?url=account');
+    // }
 });
 // router.get("/zh-CN", function (req, res, next) {
 // 	let translate = {
@@ -375,10 +408,10 @@ router.get("/qrcode", function(req, res, next) {
 // 	res.send(imageUrl);
 // });
 //获取用户信息
-var getUserInfoByOpenid = function(access_token, openid) {
-    return new Promise(function(resolve, reject) {
+var getUserInfoByOpenid = function (access_token, openid) {
+    return new Promise(function (resolve, reject) {
         var url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' + access_token + '&openid=' + openid + '&lang=zh_CN';
-        request.get(url, function(err, httpResponse, body) {
+        request.get(url, function (err, httpResponse, body) {
             if (err) return reject(err);
             resolve(body);
         });
@@ -386,14 +419,14 @@ var getUserInfoByOpenid = function(access_token, openid) {
 }
 
 
-router.get('/wxpay', function() {
+router.get('/wxpay', function () {
     res.status(200).send('api');
 })
 
 /*
  * 根据openid 发起微信支付  
  */
-router.all('/pay', function(req, res, next) {
+router.all('/pay', function (req, res, next) {
     // var param = req.query || req.params;
     if (!req.session.user && !req.session.user.openId) {
         res.send({ status: 'failed' })
@@ -440,10 +473,10 @@ router.all('/pay', function(req, res, next) {
         url: urlStr,
         method: 'POST',
         body: bodyData
-    }, function(error, response, body) {
+    }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var returnValue = {};
-            parseString(body, function(err, result) {
+            parseString(body, function (err, result) {
                 if (result.xml.return_code[0] == 'SUCCESS') {
                     returnValue.msg = '操作成功';
                     returnValue.status = '100';
@@ -488,7 +521,7 @@ function raw(args) {
     var keys = Object.keys(args);
     keys = keys.sort();
     var newArgs = {};
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
         newArgs[key.toLowerCase()] = args[key];
     });
 
@@ -517,7 +550,7 @@ function raw1(args) {
     var keys = Object.keys(args);
     keys = keys.sort()
     var newArgs = {};
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
         newArgs[key] = args[key];
     });
 
@@ -535,139 +568,158 @@ function getNonceStr() {
 
 
 router.post('/', function (req, res, next) {
-	//获取参数
-	var query = req.query;
-	console.log('i am in')
-	//签名
-	// var signature = query.signature;
-	//输出的字符，你填写的TOKEN 
-	var echostr = query.echostr;
-	//时间戳
-	var timestamp = query['timestamp'];
-	//随机字符串
-	var nonce = query.nonce;
-	var oriArray = new Array();
-	oriArray[0] = nonce;
-	oriArray[1] = timestamp;
-	oriArray[2] = "weichat_fuge";//这里是你在微信开发者中心页面里填的token，而不是****
-	oriArray.sort();
-	var original = oriArray.join('');
-	//加密
-	// var scyptoString = sha(original);
-	//判断是否与你填写TOKEN相等
-	// if (signature == scyptoString) {
-	//获取xml数据
-	var echostr = query.echostr;
-	// console.log('echostr', echostr)
-	req.on("data", function (data) {
-		//将xml解析
-		parser.parseString(data.toString(), function (err, result) {
-			// console.log('result', result)
-			if (result && result.xml) {
-				var body = result.xml;
-				var messageType = body.MsgType[0];
-				//用户点击菜单响应事件
-				console.log('i am in', body.MsgType[0])
-				if (messageType === 'event') {
-					var eventName = body.Event[0];
-					// console.log('body', body.Event[0])
-					// (EventFunction[eventName] || function () { })(body, req, res);
-					//自动回复消息
-					res.send(echostr);
-				}
-				else if (messageType === 'text') {
-					EventFunction.responseNews(body, res);
-					// res.send(echostr);
-					//第一次填写URL时确认接口是否有效
-				} else {
-					res.send(echostr);
-				}
-			} else {
-				res.send(echostr);
-			}
-		});
-	});
-	// } else {
-	// 	//认证失败，非法操作
-	// 	res.send("Bad Token!");
-	// }
+    //获取参数
+    var query = req.query;
+    console.log('i am in')
+    //签名
+    // var signature = query.signature;
+    //输出的字符，你填写的TOKEN 
+    var echostr = query.echostr;
+    //时间戳
+    var timestamp = query['timestamp'];
+    //随机字符串
+    var nonce = query.nonce;
+    var oriArray = new Array();
+    oriArray[0] = nonce;
+    oriArray[1] = timestamp;
+    oriArray[2] = "weichat_fuge";//这里是你在微信开发者中心页面里填的token，而不是****
+    oriArray.sort();
+    var original = oriArray.join('');
+    //加密
+    // var scyptoString = sha(original);
+    //判断是否与你填写TOKEN相等
+    // if (signature == scyptoString) {
+    //获取xml数据
+    var echostr = query.echostr;
+    // console.log('echostr', echostr)
+    req.on("data", function (data) {
+        //将xml解析
+        parser.parseString(data.toString(), function (err, result) {
+            // console.log('result', result)
+            if (result && result.xml) {
+                var body = result.xml;
+                var messageType = body.MsgType[0];
+                var eventKey = body.EventKey[0];
+                //用户点击菜单响应事件
+                console.log('i am in', body.MsgType[0])
+                if (messageType === 'event') {
+                    var eventName = body.Event[0];
+                    // console.log('body', body.Event[0])
+                    if (eventName === 'subscribe' && eventKey.indexOf('qrscene') >= 0) {
+                        EventFunction[eventName](body, req, res);
+                    }
+
+                    if (eventName === 'SCAN') {
+                        EventFunction[eventName](body, req, res);
+                    }
+                    // (EventFunction[eventName] || function () { })(body, req, res);
+                    //自动回复消息
+                    res.send(echostr);
+                }
+                else if (messageType === 'text') {
+                    EventFunction.responseNews(body, res);
+                    // res.send(echostr);
+                    //第一次填写URL时确认接口是否有效
+                } else {
+                    res.send(echostr);
+                }
+            } else {
+                res.send(echostr);
+            }
+        });
+    });
+    // } else {
+    // 	//认证失败，非法操作
+    // 	res.send("Bad Token!");
+    // }
 });
 //微信客户端各类回调用接口
 var EventFunction = {
-	//关注
-	subscribe: function (result, req, res) {
-		var openId = result.FromUserName[0]
-		// util.getToken(aotuConfig, function (result) {
-		// 	if (result.err) return res.status(500).send(result.msg);
-		// 	var access_token = result.data.access_token;
-		// 	// console.log('access_token', access_token)
-		// 	// console.log('openId', openId)
-		// 	if (openId) {
-		// 		new getUserInfoByOpenid(access_token, openId)
-		// 			.then(function (data) {
-		// 				// console.log('data', data)
-		// 				dbHandler.createUser(req, res, data)
-		// 				// return res.status(200).send(data);
-		// 			})
-		// 			.catch(function (err) {
-		// 				console.log('get user openId error')
-		// 				// return res.status(500).send('get user info by openid error:' + err);
-		// 			});
-		// 	}
-		// });
+    //关注
+    SCAN: function (result, req, res) {
+        var openId = result.FromUserName[0];
+        var eventKey = body.EventKey[0];
+        var preLevel = eventKey;
+        res.redirect('http://www.taduoke.com/order?preLevel=' + preLevel);
+        console.log('scan openid', openId)
+    },
+    subscribe: function (result, req, res) {
+        var openId = result.FromUserName[0];
+        var eventKey = body.EventKey[0];
+        var eventKeys = eventKey.split('_');
+        var preLevel = eventKeys.length === 2 ? eventKeys[1] : '';
+        res.redirect('http://www.taduoke.com/order?preLevel=' + preLevel);
+        // util.getToken(aotuConfig, function (result) {
+        // 	if (result.err) return res.status(500).send(result.msg);
+        // 	var access_token = result.data.access_token;
+        // 	// console.log('access_token', access_token)
+        // 	// console.log('openId', openId)
+        // 	if (openId) {
+        // 		new getUserInfoByOpenid(access_token, openId)
+        // 			.then(function (data) {
+        // 				// console.log('data', data)
+        // 				dbHandler.createUser(req, res, data)
+        // 				// return res.status(200).send(data);
+        // 			})
+        // 			.catch(function (err) {
+        // 				console.log('get user openId error')
+        // 				// return res.status(500).send('get user info by openid error:' + err);
+        // 			});
+        // 	}
+        // });
         // res.send('');
-        console.log('openid',openId)
-		//存入openid 通过微信的接口获取用户的信息同时存入数据库。
-	},
-	//注销
-	unsubscribe: function (openid, req, res) {
-		//删除对应id
-	},
-	//打开某个网页
-	VIEW: function (body, req, res) {
-		//根据需求，处理不同的业务
-		var xml = {
-			xml: {
-				ToUserName: body.FromUserName[0],
-				FromUserName: body.ToUserName[0],
-				CreateTime: + new Date(),
-				MsgType: 'event',
-				Event: 'VIEW',
-				EventKey: 'http://www.cztzhg.com/view'
-			}
-		};
-		// var reciviMessage = body.Content[0]
-		// if (/^\@.*/.test(reciviMessage)) {
-		// 	xml.xml.Content = '已经收到您的建议，会及时处理！'
-		// }
-		xml = builder.buildObject(xml);
-		// console.log('xml', xml)
-		res.send(xml);
-	},
-	CLICK: function (result, req, res) {
-		var openId = result.FromUserName[0]
-		res.redirect("http://www.cztzhg.com");
-	},
-	//自动回复
-	responseNews: function (body, res) {
-		//组装微信需要的json
-		var xml = {
-			xml: {
-				ToUserName: body.FromUserName[0],
-				FromUserName: body.ToUserName[0],
-				CreateTime: + new Date(),
-				MsgType: 'text',
-				Content: '谢谢关注赋格音乐馆'
-			}
-		};
-		var reciviMessage = body.Content[0]
-		if (/^\@.*/.test(reciviMessage)) {
-			xml.xml.Content = '已经收到您的建议，会及时处理！'
-		}
-		xml = builder.buildObject(xml);
-		// console.log('xml', xml)
-		res.send(xml);
-	}
+        console.log('openid', openId)
+        //存入openid 通过微信的接口获取用户的信息同时存入数据库。
+    },
+    //注销
+    unsubscribe: function (openid, req, res) {
+        //删除对应id
+    },
+    //打开某个网页
+    VIEW: function (body, req, res) {
+        //根据需求，处理不同的业务
+        var xml = {
+            xml: {
+                ToUserName: body.FromUserName[0],
+                FromUserName: body.ToUserName[0],
+                CreateTime: + new Date(),
+                MsgType: 'event',
+                Event: 'VIEW',
+                EventKey: 'http://www.taduoke.com/account'
+            }
+        };
+        // var reciviMessage = body.Content[0]
+        // if (/^\@.*/.test(reciviMessage)) {
+        // 	xml.xml.Content = '已经收到您的建议，会及时处理！'
+        // }
+        xml = builder.buildObject(xml);
+        // console.log('xml', xml)
+        res.send(xml);
+    },
+    CLICK: function (result, req, res) {
+        var openId = result.FromUserName[0]
+        res.redirect("http://www.taduoke.com/account");
+    },
+    //自动回复
+    responseNews: function (body, res) {
+        //组装微信需要的json
+        var xml = {
+            xml: {
+                ToUserName: body.FromUserName[0],
+                FromUserName: body.ToUserName[0],
+                CreateTime: + new Date(),
+                MsgType: 'text',
+                Content: '谢谢关注'
+            }
+        };
+        var reciviMessage = body.Content[0]
+        if (/^\@.*/.test(reciviMessage)) {
+            xml.xml.Content = '已经收到您的建议，会及时处理！'
+        }
+        xml = builder.buildObject(xml);
+        // console.log('xml', xml)
+        res.send(xml);
+    }
 }
 
 module.exports = router;
