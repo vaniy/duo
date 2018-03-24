@@ -647,7 +647,7 @@ var EventFunction = {
     },
     subscribe: function (result, req, res) {
         var openId = result.FromUserName[0];
-        var eventKey = body.EventKey[0];
+        var eventKey = result.EventKey[0];
         var eventKeys = eventKey.split('_');
         var preLevel = eventKeys.length === 2 ? eventKeys[1] : '';
         res.redirect('http://www.taduoke.com/order?preLevel=' + preLevel);
