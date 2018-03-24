@@ -12,6 +12,12 @@ var cryptoMO = require('crypto'); // MD5算法
 var parseString = require('xml2js').parseString; // xml转js对象
 var key = wxConfig.Mch_key;
 
+var XMLJS = require('xml2js');
+//解析，将xml解析为json
+var parser = new XMLJS.Parser();
+//重组，将json重组为xml
+var builder = new XMLJS.Builder();
+
 var util = require('../util/util');
 
 // const language = require('../lib/resource')
