@@ -27,7 +27,7 @@ function validateToken(req,res){
   var oriArray = new Array();
   oriArray[0] = nonce;
   oriArray[1] = timestamp;
-  oriArray[2] = "*********";//这里是你在微信开发者中心页面里填的token，而不是****
+  oriArray[2] = "taduoke";//这里是你在微信开发者中心页面里填的token，而不是****
   oriArray.sort();
   var original = oriArray.join('');
   console.log("Original str : " + original);
