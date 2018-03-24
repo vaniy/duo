@@ -146,7 +146,7 @@ router.get("/myProfit", function(req, res, next) {
                     }
                 })
             }
-            res.render('myProfit', { title: '', data: data.data || {}, benfits, canTakeBenfits });
+            res.render('myProfit', { title: '', data: data.data || [], benfits, canTakeBenfits, myWithDraw: data.myWithDraw || [] });
         });
     } else {
         res.redirect('/login?url=account');

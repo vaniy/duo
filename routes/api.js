@@ -146,6 +146,14 @@ router.get('/getClockIndex', function(req, res, next) {
     }
 })
 
+router.get('/getWithDraw', function(req, res, next) {
+    if (req.query.openId) {
+        dbHandler.getWithDraw(req, res, req.query.isAll ? req.query.isAll : false);
+    } else {
+        res.send({ status: 'failed' })
+    }
+})
+
 router.get('/token', function(req, res, next) {
     util.getToken(aotuConfig, function(result) {
         if (result.err) {

@@ -75,8 +75,13 @@
                 </div>
             </div> -->
         </div>
-
-        <!-- <div class="subTitle">
+        <%if(myWithDraw && myWithDraw.length > 0){myWithDraw.forEach(function(item){%>
+            <div class="withDraw">
+                <span>提现（<%=item.price%>）</span>
+                <span><%=item.time%></span>
+            </div>
+            <%})}%>
+                <!-- <div class="subTitle">
             <div class="left">
                 <span>提现(3000)</span>
             </div>

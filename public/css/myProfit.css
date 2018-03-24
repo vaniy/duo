@@ -122,3 +122,11 @@ body {
     /* position: absolute; */
     bottom: 40px;
 }
+
+.withDraw {
+    display: flex;
+    justify-content: space-between;
+    padding: 2% 2% 2% 7%;
+    /* margin-left: 5%; */
+    background: white;
+}

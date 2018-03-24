@@ -36,6 +36,27 @@ router.get('/api/getAllOrder', (req, res) => {
     dbHandler.getOrder(req, res, true);
 })
 
+router.get('/api/getAllUser', (req, res) => {
+    dbHandler.getUserInfo(req, res, true);
+})
+
+router.get('/api/getAllWithDraw', (req, res) => {
+    dbHandler.getWithDraw(req, res, true);
+})
+
+router.get('/api/updateWithDraw', (req, res) => {
+    if (req.query.status && req.query.withDrawId) {
+        dbHandler.updateWithDraw(req, res)
+    }
+})
+
+
+router.get('/api/updateOrder', (req, res) => {
+    if (req.query.status && req.query.orderId) {
+        dbHandler.updateOrder(req, res)
+    }
+})
+
 // router.get('/questions', (req, res) => {
 //     dbHandler.findAllQuestion(req, res);
 // })
