@@ -252,16 +252,17 @@ router.get("/qrcode", function (req, res, next) {
         util.getToken(aotuConfig, function (result) {
             if (result.err) return res.status(500).send(result.msg);
             var access_token = result.data.access_token;
-            request.post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' + access_token, {
-                form: {
-                    expire_seconds: 604800,
-                    "action_name": "QR_STR_SCENE",
-                    "action_info": {
-                        "scene": {
-                            "scene_str": "req.session.user.openId"
-                        }
+            var form = {
+                expire_seconds: 604800,
+                "action_name": "QR_STR_SCENE",
+                "action_info": {
+                    "scene": {
+                        "scene_str": "req.session.user.openId"
                     }
-                },
+                }
+            };
+            request.post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' + access_token, {
+                form: JSON.stringify(form),
                 json: true
             },
                 function (err, httpResponse, body) {
