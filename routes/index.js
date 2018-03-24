@@ -257,7 +257,7 @@ router.get("/qrcode", function (req, res, next) {
                 "action_name": "QR_STR_SCENE",
                 "action_info": {
                     "scene": {
-                        "scene_str": "req.session.user.openId"
+                        "scene_str": req.session.user.openId
                     }
                 }
             };
