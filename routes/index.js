@@ -561,7 +561,7 @@ router.post('/', function (req, res, next) {
 				var body = result.xml;
 				var messageType = body.MsgType[0];
 				//用户点击菜单响应事件
-				// console.log('i am in', body.MsgType[0])
+				console.log('i am in', body.MsgType[0])
 				if (messageType === 'event') {
 					var eventName = body.Event[0];
 					// console.log('body', body.Event[0])
@@ -591,25 +591,26 @@ var EventFunction = {
 	//关注
 	subscribe: function (result, req, res) {
 		var openId = result.FromUserName[0]
-		util.getToken(aotuConfig, function (result) {
-			if (result.err) return res.status(500).send(result.msg);
-			var access_token = result.data.access_token;
-			// console.log('access_token', access_token)
-			// console.log('openId', openId)
-			if (openId) {
-				new getUserInfoByOpenid(access_token, openId)
-					.then(function (data) {
-						// console.log('data', data)
-						dbHandler.createUser(req, res, data)
-						// return res.status(200).send(data);
-					})
-					.catch(function (err) {
-						console.log('get user openId error')
-						// return res.status(500).send('get user info by openid error:' + err);
-					});
-			}
-		});
-		res.send('');
+		// util.getToken(aotuConfig, function (result) {
+		// 	if (result.err) return res.status(500).send(result.msg);
+		// 	var access_token = result.data.access_token;
+		// 	// console.log('access_token', access_token)
+		// 	// console.log('openId', openId)
+		// 	if (openId) {
+		// 		new getUserInfoByOpenid(access_token, openId)
+		// 			.then(function (data) {
+		// 				// console.log('data', data)
+		// 				dbHandler.createUser(req, res, data)
+		// 				// return res.status(200).send(data);
+		// 			})
+		// 			.catch(function (err) {
+		// 				console.log('get user openId error')
+		// 				// return res.status(500).send('get user info by openid error:' + err);
+		// 			});
+		// 	}
+		// });
+        // res.send('');
+        console.log('openid',openId)
 		//存入openid 通过微信的接口获取用户的信息同时存入数据库。
 	},
 	//注销
