@@ -527,7 +527,7 @@ function getNonceStr() {
     return Math.random().toString(36).substr(2, 15)
 };
 
-router.post('/login/wechat', function(req, res) {
+router.post('/wechat', function(req, res) {
     console.log('aa')
 })
 module.exports = router;
