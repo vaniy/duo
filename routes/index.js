@@ -267,8 +267,9 @@ router.get("/qrcode", function (req, res, next) {
                 function (err, httpResponse, body) {
                     //res.json(body);
                     if (err) return res.send({ status: 'failed' });
-                    var data = JSON.parse(body);
-                    res.render('qrcode', { title: '', url: data.url, qrcode: '' });
+                    console.log('body',body);
+                    // var data = JSON.parse(body);
+                    res.render('qrcode', { title: '', url: body.url, qrcode: '' });
                 });
 
         });

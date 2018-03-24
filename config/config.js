@@ -8,41 +8,19 @@ module.exports = {
             cached: {},
             menu: {
                 "button": [{
-                    "name": "Hello Electone",
-                    "sub_button": [{
-                        "type": "view",
-                        "name": "Hello Electone",
-                        "url": "http://www.stayniche.com/"
-                    }, {
-                        "type": "view",
-                        "name": "点我",
-                        "url": "http://www.stayniche.com"
-                    }]
+                    "type": "view",
+                    "name": "减肥产品",
+                    "url": "http://www.taduoke.com/order"
                 }, {
-                    "name": "小小音乐厅",
+                    "name": "会员平台",
                     "sub_button": [{
                         "type": "view",
-                        "name": "小小音乐厅",
-                        "url": "http://www.stayniche.com/"
+                        "name": "打卡记录",
+                        "url": "http://www.taduoke.com/clockIndex"
                     }, {
                         "type": "view",
-                        "name": "精品课程",
-                        "url": "http://www.cztzhg.com/view"
-                    }, {
-                        "type": "view",
-                        "name": "预约课程",
-                        "url": "http://www.stayniche.com/"
-                    }]
-                }, {
-                    "name": "商城",
-                    "sub_button": [{
-                        "type": "view",
-                        "name": "乐器商城",
-                        "url": "https://weidian.com/item.html?itemID=2165033587&string=b2M1b050ODd6d0xpUXMtTlpaa3RqdTlkZFRQQQ&state=H5WXshareOld&share_relation=c6191fa80118e91b_735743339_1&wfr=wxShare&from=singlemessage&isappinstalled=0"
-                    }, {
-                        "type": "view",
-                        "name": "课程购买",
-                        "url": "http://www.stayniche.com/"
+                        "name": "个人中心",
+                        "url": "http://www.taduoke.com/account"
                     }]
                 }]
             }
