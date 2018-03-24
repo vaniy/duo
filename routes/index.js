@@ -527,7 +527,140 @@ function getNonceStr() {
     return Math.random().toString(36).substr(2, 15)
 };
 
-router.post('/wechat', function(req, res) {
-    console.log('aa')
-})
+
+router.post('/', function (req, res, next) {
+	//获取参数
+	var query = req.query;
+	console.log('i am in')
+	//签名
+	// var signature = query.signature;
+	//输出的字符，你填写的TOKEN 
+	var echostr = query.echostr;
+	//时间戳
+	var timestamp = query['timestamp'];
+	//随机字符串
+	var nonce = query.nonce;
+	var oriArray = new Array();
+	oriArray[0] = nonce;
+	oriArray[1] = timestamp;
+	oriArray[2] = "weichat_fuge";//这里是你在微信开发者中心页面里填的token，而不是****
+	oriArray.sort();
+	var original = oriArray.join('');
+	//加密
+	// var scyptoString = sha(original);
+	//判断是否与你填写TOKEN相等
+	// if (signature == scyptoString) {
+	//获取xml数据
+	var echostr = query.echostr;
+	// console.log('echostr', echostr)
+	req.on("data", function (data) {
+		//将xml解析
+		parser.parseString(data.toString(), function (err, result) {
+			// console.log('result', result)
+			if (result && result.xml) {
+				var body = result.xml;
+				var messageType = body.MsgType[0];
+				//用户点击菜单响应事件
+				// console.log('i am in', body.MsgType[0])
+				if (messageType === 'event') {
+					var eventName = body.Event[0];
+					// console.log('body', body.Event[0])
+					// (EventFunction[eventName] || function () { })(body, req, res);
+					//自动回复消息
+					res.send(echostr);
+				}
+				else if (messageType === 'text') {
+					EventFunction.responseNews(body, res);
+					// res.send(echostr);
+					//第一次填写URL时确认接口是否有效
+				} else {
+					res.send(echostr);
+				}
+			} else {
+				res.send(echostr);
+			}
+		});
+	});
+	// } else {
+	// 	//认证失败，非法操作
+	// 	res.send("Bad Token!");
+	// }
+});
+//微信客户端各类回调用接口
+var EventFunction = {
+	//关注
+	subscribe: function (result, req, res) {
+		var openId = result.FromUserName[0]
+		util.getToken(aotuConfig, function (result) {
+			if (result.err) return res.status(500).send(result.msg);
+			var access_token = result.data.access_token;
+			// console.log('access_token', access_token)
+			// console.log('openId', openId)
+			if (openId) {
+				new getUserInfoByOpenid(access_token, openId)
+					.then(function (data) {
+						// console.log('data', data)
+						dbHandler.createUser(req, res, data)
+						// return res.status(200).send(data);
+					})
+					.catch(function (err) {
+						console.log('get user openId error')
+						// return res.status(500).send('get user info by openid error:' + err);
+					});
+			}
+		});
+		res.send('');
+		//存入openid 通过微信的接口获取用户的信息同时存入数据库。
+	},
+	//注销
+	unsubscribe: function (openid, req, res) {
+		//删除对应id
+	},
+	//打开某个网页
+	VIEW: function (body, req, res) {
+		//根据需求，处理不同的业务
+		var xml = {
+			xml: {
+				ToUserName: body.FromUserName[0],
+				FromUserName: body.ToUserName[0],
+				CreateTime: + new Date(),
+				MsgType: 'event',
+				Event: 'VIEW',
+				EventKey: 'http://www.cztzhg.com/view'
+			}
+		};
+		// var reciviMessage = body.Content[0]
+		// if (/^\@.*/.test(reciviMessage)) {
+		// 	xml.xml.Content = '已经收到您的建议，会及时处理！'
+		// }
+		xml = builder.buildObject(xml);
+		// console.log('xml', xml)
+		res.send(xml);
+	},
+	CLICK: function (result, req, res) {
+		var openId = result.FromUserName[0]
+		res.redirect("http://www.cztzhg.com");
+	},
+	//自动回复
+	responseNews: function (body, res) {
+		//组装微信需要的json
+		var xml = {
+			xml: {
+				ToUserName: body.FromUserName[0],
+				FromUserName: body.ToUserName[0],
+				CreateTime: + new Date(),
+				MsgType: 'text',
+				Content: '谢谢关注赋格音乐馆'
+			}
+		};
+		var reciviMessage = body.Content[0]
+		if (/^\@.*/.test(reciviMessage)) {
+			xml.xml.Content = '已经收到您的建议，会及时处理！'
+		}
+		xml = builder.buildObject(xml);
+		// console.log('xml', xml)
+		res.send(xml);
+	}
+}
+
 module.exports = router;
