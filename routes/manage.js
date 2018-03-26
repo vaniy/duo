@@ -13,11 +13,9 @@ var formidable = require('formidable'),
 router.get('/', (req, res) => {
     if (!req.session.admin) {
         res.redirect("/management/signIn");
-        // var dom = viewHandler.buildTenZhongMangementView();
-        // res.render('management', { title: TITLE, user: {}, type: "2", dom: dom });
     } else {
         var dom = viewHandler.buildManagementView();
-        res.render('management', { title: TITLE, user: {}, type: "1", dom: dom });
+        res.render('manage', { title: TITLE, user: {}, type: "1", dom: dom });
     }
 })
 
@@ -56,6 +54,13 @@ router.get('/api/updateOrder', (req, res) => {
         dbHandler.updateOrder(req, res)
     }
 })
+
+
+router.get('/api/getUserCount', (req, res) => {
+        dbHandler.getUserCount(req, res)
+})
+
+
 
 // router.get('/questions', (req, res) => {
 //     dbHandler.findAllQuestion(req, res);
