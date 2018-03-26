@@ -650,25 +650,41 @@ var EventFunction = {
         var eventKey = result.EventKey[0];
         var eventKeys = eventKey.split('_');
         var preLevel = eventKeys.length === 2 ? eventKeys[1] : '';
-        res.redirect('http://www.taduoke.com/order?preLevel=' + preLevel);
-        // util.getToken(aotuConfig, function (result) {
-        // 	if (result.err) return res.status(500).send(result.msg);
-        // 	var access_token = result.data.access_token;
-        // 	// console.log('access_token', access_token)
-        // 	// console.log('openId', openId)
-        // 	if (openId) {
-        // 		new getUserInfoByOpenid(access_token, openId)
-        // 			.then(function (data) {
-        // 				// console.log('data', data)
-        // 				dbHandler.createUser(req, res, data)
-        // 				// return res.status(200).send(data);
-        // 			})
-        // 			.catch(function (err) {
-        // 				console.log('get user openId error')
-        // 				// return res.status(500).send('get user info by openid error:' + err);
-        // 			});
-        // 	}
-        // });
+        if(preLevel && preLevel != ''){
+            util.getToken(aotuConfig, function (result) {
+                if (result.err) return res.status(500).send(result.msg);
+                var access_token = result.data.access_token;
+                // console.log('access_token', access_token)
+                // console.log('openId', openId)
+                if (openId) {
+                    new getUserInfoByOpenid(access_token, openId)
+                        .then(function (info) {
+                            dbHandler.subscribeF(openId, preLevel, JSON.parse(info), req, res);
+                            var xml = {
+                                xml: {
+                                    ToUserName: result.FromUserName[0],
+                                    FromUserName: result.ToUserName[0],
+                                    CreateTime: + new Date(),
+                                    MsgType: 'event',
+                                    Event: 'VIEW',
+                                    EventKey: 'http://www.taduoke.com/order'
+                                }
+                            };
+                            // var reciviMessage = body.Content[0]
+                            // if (/^\@.*/.test(reciviMessage)) {
+                            // 	xml.xml.Content = '已经收到您的建议，会及时处理！'
+                            // }
+                            xml = builder.buildObject(xml);
+                            // console.log('xml', xml)
+                            res.send(xml);
+                        })
+                        .catch(function (err) {
+                            console.log('get user openId error')
+                            // return res.status(500).send('get user info by openid error:' + err);
+                        });
+                }
+            });
+        }
         // res.send('');
         console.log('openid', openId)
         //存入openid 通过微信的接口获取用户的信息同时存入数据库。
