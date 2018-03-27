@@ -268,7 +268,7 @@ router.get("/qrcode", function (req, res, next) {
                 function (err, httpResponse, body) {
                     //res.json(body);
                     if (err) return res.send({ status: 'failed' });
-                    console.log('body',body);
+                    console.log('body', body);
                     // var data = JSON.parse(body);
                     res.render('qrcode', { title: '', url: body.url, qrcode: '' });
                 });
@@ -650,7 +650,7 @@ var EventFunction = {
         var eventKey = result.EventKey[0];
         var eventKeys = eventKey.split('_');
         var preLevel = eventKeys.length === 2 ? eventKeys[1] : '';
-        if(preLevel && preLevel != ''){
+        if (preLevel && preLevel != '') {
             util.getToken(aotuConfig, function (result) {
                 if (result.err) return res.status(500).send(result.msg);
                 var access_token = result.data.access_token;
@@ -665,9 +665,18 @@ var EventFunction = {
                                     ToUserName: result.FromUserName[0],
                                     FromUserName: result.ToUserName[0],
                                     CreateTime: + new Date(),
-                                    MsgType: 'event',
-                                    Event: 'VIEW',
-                                    EventKey: 'http://www.taduoke.com/order'
+                                    MsgType: 'news',
+                                    ArticleCount: 1,
+                                    Articles: [
+                                        {
+                                            item: {
+                                                Title:'关注她多可',
+                                                Description: '健康管理',
+                                                PicUrl: 'http://www.taduoke.com/images/product.png',
+                                                Url:'http://www.taduoke.com/order'
+                                            }
+                                        }
+                                    ]
                                 }
                             };
                             // var reciviMessage = body.Content[0]
