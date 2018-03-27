@@ -104,12 +104,14 @@
         function updateOrder(id){
             if(id){
                 var status = $('.orderId_'+id)[0].value;
+                var logisticsId = $('#orderId_'+id)[0].value;
                 $.ajax({
                     url: '/management/api/updateOrder',
                     type: 'GET',
                     data: {
                         orderId:id,
-                        status:status
+                        status:status,
+                        logisticsId:logisticsId
                     },
                     dataType: 'JSON',
                     cache: false,
