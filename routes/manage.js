@@ -46,6 +46,9 @@ router.get('/api/updateWithDraw', (req, res) => {
     if (req.query.status && req.query.withDrawId) {
         dbHandler.updateWithDraw(req, res)
     }
+    else{
+        res.send({ status: 'failed' })
+    }
 })
 
 
@@ -53,11 +56,23 @@ router.get('/api/updateOrder', (req, res) => {
     if (req.query.status && req.query.orderId) {
         dbHandler.updateOrder(req, res)
     }
+    else{
+        res.send({ status: 'failed' })
+    }
 })
 
 
 router.get('/api/getUserCount', (req, res) => {
         dbHandler.getUserCount(req, res)
+})
+
+router.get('/api/getUserBenfits', (req, res) => {
+    if(req.query.peronName){
+        dbHandler.getBenfits(req, res, req.query.peronName)
+    }
+    else{
+        res.send({ status: 'failed' })
+    }
 })
 
 

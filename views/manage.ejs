@@ -75,6 +75,25 @@
 	<script src="/js/common.js"></script>
 
 	<script>
+        function search(){
+            var name = $('#search_value')[0].value;
+            $.ajax({
+                                            url: '/management/api/getUserBenfits',
+                                            type: 'GET',
+                                            data: {
+                                                peronName:name.trim(),
+                                            },
+                                            cache: false,
+                                            dataType: 'html',
+                success: function (res) {
+                    $('.main-content').html(res);
+                    $('#content-title').html('会员设置');
+                },
+                                            error: function(data) {
+                                                alert('internal server error')
+                                            }
+                                        })
+        }
         function updateWidthDraw(id){
             if(id){
                 var status = $('.orderId_'+id)[0].value;
@@ -264,6 +283,7 @@
                 </a>
                 <ul class="treeview-menu" style="display: none;">
                     <li class="son-m userTab" path="index.php?c=home&amp;a=member&amp;do=index" data-type="1"><a href="#"><i class="fa fa-user-plus"></i><span>会员列表</span></a></li>
+                    <li class="son-m benfitsTab" path="index.php?c=home&amp;a=member&amp;do=index" data-type="1"><a href="#"><i class="fa fa-user-plus"></i><span>会员收益</span></a></li>
                     <!-- <li class="son-m" onclick="jump_page(this)" path="index.php?c=home&amp;a=member&amp;do=cardlist" data-type="1"><a href="#"><i class="fa fa-user-plus"></i><span>充值类型</span></a></li> -->
                 </ul>
             </li>
@@ -411,6 +431,24 @@
                 }
             });
         });
+
+        $('.benfitsTab').click(function(){
+            var html = `<div class="box-header with-border">
+    <h3 class="box-title">会员列表</h3>
+</div><div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 400px; float: left; margin-bottom: 10px;">
+            <div class="search_value " attr_id="0">
+                <input type="text" id="search_value" value="" class="form-control pull-right" style="font-size:14px;height:30px;" placeholder="搜索会员名称">
+            </div>
+            <div class="input-group-btn">
+                <input type="hidden" id="parentid" value="">
+                <button type="button" class="btn btn-info btn-fla search"  onclick="search()"><i class="fa fa-search"></i></button>
+            </div>
+            
+        </div>
+    </div>`
+                    $('.main-content').html(html);
+        })
     })
     // function ajaxfreshHtml(purl,pageid,obj) {
     //     var search_key = $("#search_key").val();
