@@ -442,7 +442,7 @@ router.all('/pay', function (req, res, next) {
 
     var spbill_create_ip = req.ip.replace(/::ffff:/, ''); // 获取客户端ip
     // var spbill_create_ip = "10.16.50.34";
-    var body = '测试支付'; // 商品描述
+    var body = '肠道微生物菌群代谢干预'; // 商品描述
     var notify_url = 'http://www.taduoke.com/weichat/wxpay' // 支付成功的回调地址  可访问 不带参数
     var nonce_str = getNonceStr(); // 随机字符串
     var out_trade_no = wxConfig.getWxPayOrdrID(); // 商户订单号
