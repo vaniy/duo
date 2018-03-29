@@ -91,6 +91,7 @@ router.post('/updateClock', function(req, res, next) {
 
 
 router.post('/createOrder', function(req, res, next) {
+    console.log('/createOrder', req.session.user)
     if (req.session && req.session.user && req.session.user.openId) {
         dbHandler.createOrder(req, res, req.session.user.openId);
     } else {
