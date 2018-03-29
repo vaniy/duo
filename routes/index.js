@@ -20,6 +20,11 @@ var builder = new XMLJS.Builder();
 
 var util = require('../util/util');
 
+var cache = {
+    ticket: null,
+    time: 0
+}
+
 // const language = require('../lib/resource')
 
 router.get('/login', function (req, res, next) {
@@ -270,7 +275,7 @@ router.get("/qrcode", function (req, res, next) {
                     if (err) return res.send({ status: 'failed' });
                     console.log('body', body);
                     // var data = JSON.parse(body);
-                    res.render('qrcode', { title: '', url: body.url, qrcode: '' });
+                    res.render('qrcode', { title: '', url: body.url, qrcode: '' ,shareUrl: 'http://www.taduoke.com/login?url=order&openId=' + req.session.user.openId});
                 });
 
         });
@@ -441,7 +446,7 @@ router.all('/pay', function (req, res, next) {
     var notify_url = 'http://www.taduoke.com/weichat/wxpay' // 支付成功的回调地址  可访问 不带参数
     var nonce_str = getNonceStr(); // 随机字符串
     var out_trade_no = wxConfig.getWxPayOrdrID(); // 商户订单号
-    var total_fee = '42'; // 订单价格 单位是 分
+    var total_fee = '1'; // 订单价格 单位是 分
     var timestamp = Math.round(new Date().getTime() / 1000); // 当前时间
 
     var bodyData = '<xml>';
@@ -670,10 +675,10 @@ var EventFunction = {
                                     Articles: [
                                         {
                                             item: {
-                                                Title:'关注她多可',
+                                                Title: '关注她多可',
                                                 Description: '健康管理',
                                                 PicUrl: 'http://www.taduoke.com/images/product.png',
-                                                Url:'http://www.taduoke.com/order'
+                                                Url: 'http://www.taduoke.com/order'
                                             }
                                         }
                                     ]
@@ -749,4 +754,43 @@ var EventFunction = {
     }
 }
 
+router.get('/jssdk', function (req, res) {
+    if (!cache.ticket || (new Date().getTime() - cache.time) > 7000000) {
+        util.getToken(aotuConfig, function (result) {
+            if (result.err) return res.status(500).send(result.msg);
+            var access_token = result.data.access_token;
+            if (access_token) {
+                request.get('https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=' + access_token, function (err, httpResponse, body) {
+                    //res.json(body);
+                    if (err) return res.send({ status: 'failed' });
+                    var data = JSON.parse(body);
+                    var timestamp = createTimeStamp();
+                    var nonceStr = getNonceStr();
+                    var signature = calcSignature(data.ticket, nonceStr, timestamp, url);
+                    cache.ticket = data.ticket;
+                    cache.time = new Date().getTime();
+                    res.send({ signature: signature, appid: aotuConfig.appid, timestamp: timestamp, nonceStr: nonceStr, status: 'success' })
+                    // res.render('checkClock', { title: '', result: data });
+                });
+            }
+        })
+    }
+    else{
+        var timestamp = createTimeStamp();
+        var noncestr = getNonceStr();
+        var str = 'jsapi_ticket=' + cache.ticket + '&noncestr=' + noncestr + '&timestamp=' + timestamp + '&url=' + req.query.url;
+        var signature = crypto.createHash('sha1').update(str).digest('hex');
+        res.send({ signature: signature, appid: aotuConfig.appid, timestamp: timestamp, nonceStr: nonceStr, status: 'success' })
+    }
+})
+
+var calcSignature = function (ticket, noncestr, ts, url) {
+    var str = 'jsapi_ticket=' + ticket + '&noncestr=' + noncestr + '&timestamp=' + ts + '&url=' + url;
+    shaObj = crypto.createHash('sha1').update(str).digest('hex');
+    return shaObj;
+}
+
+var createTimeStamp = function () {
+    return parseInt(new Date().getTime() / 1000) + '';
+};
 module.exports = router;
